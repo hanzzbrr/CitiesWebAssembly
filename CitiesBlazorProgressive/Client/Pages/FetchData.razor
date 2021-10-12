@@ -1,0 +1,69 @@
+﻿@page "/fetchdata"
+@using CitiesBlazorProgressive.Shared;
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject HttpClient Http
+@inject NavigationManager navigationManager
+
+<h1>Cities</h1>
+
+@if (_cities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th style="text-align: right;">ID</th>
+                <th style="text-align: center;">Name</th>
+                <th style="text-align: right;">Population</th>
+                <th style="text-align: right;">FoundationDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var city in _cities)
+            {
+                <tr>
+                    <td>@city.ID</td>
+                    <td>@city.Name</td>
+                    <td>@city.Population</td>
+                    <td>@city.FoundationDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<div class="content px-4" style="background-color: gainsboro;">
+    Info=@_infoText
+</div>
+
+@code
+{
+    private IEnumerable<City> _cities = new List<City>();
+    private string _infoText;
+    private HubConnection _hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(navigationManager.ToAbsoluteUri("/hubs/cities"))
+            .Build();
+        _hubConnection.On<string>("CityHubMessage", msg =>
+        {
+            _infoText = $"{msg}";
+            StateHasChanged();
+        });
+
+        _hubConnection.On<IEnumerable<City>>("SendCityInfo", (cities) =>
+        {
+            _cities = cities;
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+    }
+}
