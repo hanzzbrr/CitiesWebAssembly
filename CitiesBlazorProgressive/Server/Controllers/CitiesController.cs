@@ -1,4 +1,4 @@
-﻿using CitiesBlazorProgressive.Services;
+﻿using CitiesBlazorProgressive.Server.Services;
 using CitiesBlazorProgressive.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

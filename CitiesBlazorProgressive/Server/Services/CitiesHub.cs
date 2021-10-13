@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CitiesBlazorProgressive.Services
+namespace CitiesBlazorProgressive.Server.Services
 {
     public static class UserHandler
     {

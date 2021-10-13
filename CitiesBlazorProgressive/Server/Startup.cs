@@ -1,4 +1,4 @@
-using CitiesBlazorProgressive.Services;
+using CitiesBlazorProgressive.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace CitiesBlazorProgressive.Services
+namespace CitiesBlazorProgressive.Server.Services
 {
     public class DataContext : DbContext
     {
