@@ -41,7 +41,7 @@ namespace CitiesBlazorProgressive.Server.Controllers
         [HttpGet("MaxId")]
         public async Task<IActionResult> GetMaxId()
         {
-            return Ok(await Task.Run(() => _repo.Cities.Max()));
+            return Ok((await _repo.GetAsync()).Max(x => x.ID));
         }
 
         [HttpPost]

@@ -7,7 +7,6 @@ namespace CitiesBlazorProgressive.Server.Services
 {
     public interface IRepositoryAsync
     {
-        List<City> Cities { get; }
         Task<IEnumerable<City>> GetAsync();
         Task<City> GetAsync(int id);
         Task<bool> InsertAsync(City city);

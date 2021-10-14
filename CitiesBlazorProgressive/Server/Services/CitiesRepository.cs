@@ -15,8 +15,6 @@ namespace CitiesBlazorProgressive.Server.Services
         private readonly DataContext _dbContext;
         private readonly IHubContext<CitiesHub, ICitiesHub> _hubContext;
 
-        public List<City> Cities => _dbContext.Cities.ToList();
-
         public CitiesRepository(DataContext dbContext, IHubContext<CitiesHub, ICitiesHub> hubContext)
         {
             _dbContext = dbContext;
