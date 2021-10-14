@@ -45,14 +45,14 @@
     protected override async Task OnInitializedAsync()
     {
         //_newId = await Task.Run(() => _citiesService.GetMaxId());
+        _newId = await http.GetFromJsonAsync<int>("api/Cities/MaxId");
         _newId++;
     }
 
     protected async void AddCity()
     {
         _city.ID = _newId;
-        //await _citiesService.InsertCityAsync(_city);
-        _city = await http.GetFromJsonAsync<City>("api/Cities/{id}");
+        await http.PostAsJsonAsync<City>("api/Cities/", _city);
         _navigationManager.NavigateTo("/");
     }
     void CancelAdd()

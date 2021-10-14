@@ -27,10 +27,6 @@ namespace CitiesBlazorProgressive.Server.Controllers
             _logger = logger;
         }
 
-        /// <summary>
-        /// Get list of all cities
-        /// </summary>
-        /// <returns></returns>
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
@@ -49,9 +45,30 @@ namespace CitiesBlazorProgressive.Server.Controllers
             return Ok(city);
         }
 
-        public async Task<IActionResult> PostCity(City city)
+        [HttpGet("MaxId")]
+        public async Task<IActionResult> GetMaxId()
+        {
+            return Ok(await _citiesService.GetMaxId());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(City city)
         {
             await  _citiesService.InsertCityAsync(city);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(City city)
+        {
+            await _citiesService.UpdateCityAsync(city);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _citiesService.DeleteCityAsync(id);
             return Ok();
         }
     }

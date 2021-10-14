@@ -47,6 +47,15 @@ namespace CitiesBlazorProgressive.Server.Services
             return true;
         }
 
+        public async Task<bool> DeleteCityAsync(int id)
+        {
+            City city = await _dbContext.Cities.FirstOrDefaultAsync(c => c.ID == id);
+            _dbContext.Attach(city);
+            _dbContext.Remove(city);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> DeleteCityAsync(City city)
         {
             _dbContext.Remove(city);

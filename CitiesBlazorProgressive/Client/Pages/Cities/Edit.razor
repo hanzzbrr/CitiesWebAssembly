@@ -47,8 +47,8 @@
         _city = await http.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
     }
     protected async void UpdateCity()
-    {
-        //await _citiesService.UpdateCityAsync(_city);
+    {        
+        await http.PutAsJsonAsync<City>("api/Cities/", _city);
         _navigationManager.NavigateTo("/");
     }
     void CancelUpdate()
