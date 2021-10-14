@@ -1,7 +1,7 @@
 ﻿@page "/"
 @using CitiesBlazorProgressive.Shared;
 @using Microsoft.AspNetCore.SignalR.Client;
-@inject HttpClient Http
+@inject HttpClient _httpClient
 @inject NavigationManager _navigationManager
 
 <NavLink class="nav-link" href="Cities/Add">
@@ -57,7 +57,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _cities = await Http.GetFromJsonAsync<IEnumerable<City>>("api/Cities");
+        _cities = await _httpClient.GetFromJsonAsync<IEnumerable<City>>("api/Cities");
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(_navigationManager.ToAbsoluteUri("/citieshub"))
             .Build();
@@ -69,7 +69,7 @@ else
         });
 
         await _hubConnection.StartAsync();
-        _cities = await Http.GetFromJsonAsync<IEnumerable<City>>("api/Cities");
+        _cities = await _httpClient.GetFromJsonAsync<IEnumerable<City>>("api/Cities");
         StateHasChanged();
     }
 }

@@ -1,7 +1,7 @@
 ﻿@page "/Cities/Add"
 @using CitiesBlazorProgressive.Shared
 @inject NavigationManager _navigationManager
-@inject HttpClient http
+@inject HttpClient _httpClient
 
 <h2>Add Employee</h2>
 <hr />
@@ -45,14 +45,14 @@
     protected override async Task OnInitializedAsync()
     {
         //_newId = await Task.Run(() => _citiesService.GetMaxId());
-        _newId = await http.GetFromJsonAsync<int>("api/Cities/MaxId");
+        _newId = await _httpClient.GetFromJsonAsync<int>("api/Cities/MaxId");
         _newId++;
     }
 
     protected async void AddCity()
     {
         _city.ID = _newId;
-        await http.PostAsJsonAsync<City>("api/Cities/", _city);
+        await _httpClient.PostAsJsonAsync<City>("api/Cities/", _city);
         _navigationManager.NavigateTo("/");
     }
     void CancelAdd()

@@ -1,7 +1,7 @@
 ﻿@page "/Cities/Delete/{id}"
 @using CitiesBlazorProgressive.Shared
 @inject NavigationManager _navigationManager
-@inject HttpClient httpClient
+@inject HttpClient _httpClient
 
 <h2>Delete city</h2>
 <hr />
@@ -45,11 +45,11 @@
     City _city = new City();
     protected override async Task OnInitializedAsync()
     {
-        _city = await httpClient.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
+        _city = await _httpClient.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
     }
     protected async void DeleteCity()
     {
-        await httpClient.DeleteAsync($"api/Cities/{Id}");
+        await _httpClient.DeleteAsync($"api/Cities/{Id}");
         _navigationManager.NavigateTo("/");
     }
     void CancelDelete()

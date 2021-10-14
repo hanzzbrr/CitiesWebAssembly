@@ -3,9 +3,7 @@ using CitiesBlazorProgressive.Server.Hubs;
 using CitiesBlazorProgressive.Shared;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CitiesBlazorProgressive.Server.Services

@@ -1,7 +1,7 @@
 ﻿@page "/Cities/Edit/{Id}"
 @using CitiesBlazorProgressive.Shared
 @inject NavigationManager _navigationManager
-@inject HttpClient http
+@inject HttpClient _httpClient
 
 <h2>Edit City</h2>
 <hr />
@@ -44,11 +44,11 @@
     City _city = new ();
     protected override async Task OnInitializedAsync()
     {
-        _city = await http.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
+        _city = await _httpClient.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
     }
     protected async void UpdateCity()
     {        
-        await http.PutAsJsonAsync<City>("api/Cities/", _city);
+        await _httpClient.PutAsJsonAsync<City>("api/Cities/", _city);
         _navigationManager.NavigateTo("/");
     }
     void CancelUpdate()

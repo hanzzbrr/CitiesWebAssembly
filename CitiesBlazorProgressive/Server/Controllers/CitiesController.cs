@@ -1,15 +1,7 @@
-﻿using CitiesBlazorProgressive.Server.Data;
-using CitiesBlazorProgressive.Server.Hubs;
-using CitiesBlazorProgressive.Server.Services;
+﻿using CitiesBlazorProgressive.Server.Services;
 using CitiesBlazorProgressive.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CitiesBlazorProgressive.Server.Controllers

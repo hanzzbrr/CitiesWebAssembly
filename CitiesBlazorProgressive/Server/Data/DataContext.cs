@@ -8,13 +8,7 @@ namespace CitiesBlazorProgressive.Server.Data
     {
         public DataContext(DbContextOptions<DataContext> options) :base(options)
         {
-            Database.EnsureCreated();
-            SavedChanges += DataContext_SavedChanges;
-        }
-
-        private void DataContext_SavedChanges(object sender, SavedChangesEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(Cities);
+            Database.EnsureCreated();            
         }
 
         public DbSet<City> Cities { get; set; }
