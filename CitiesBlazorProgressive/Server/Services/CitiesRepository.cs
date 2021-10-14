@@ -27,7 +27,7 @@ namespace CitiesBlazorProgressive.Server.Services
         }
 
         public async Task<City> GetAsync(int id)
-        {
+        {            
             return await _dbContext.Cities.FirstOrDefaultAsync(c => c.ID == id);
         }
 

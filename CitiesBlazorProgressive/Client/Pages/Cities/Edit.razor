@@ -47,9 +47,17 @@
         _city = await _httpClient.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
     }
     protected async void UpdateCity()
-    {        
-        await _httpClient.PutAsJsonAsync<City>("api/Cities/", _city);
-        _navigationManager.NavigateTo("/");
+    {
+        HttpResponseMessage response = await _httpClient.PutAsJsonAsync<City>("api/Cities/", _city);
+        if(response.IsSuccessStatusCode)
+        {
+            _navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            // validation error here?
+        }
+        
     }
     void CancelUpdate()
     {

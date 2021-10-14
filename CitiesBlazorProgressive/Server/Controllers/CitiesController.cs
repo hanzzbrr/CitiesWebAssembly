@@ -23,7 +23,15 @@ namespace CitiesBlazorProgressive.Server.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _repo.GetAsync());
+            var result = await _repo.GetAsync();
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("{id}")]
@@ -45,24 +53,12 @@ namespace CitiesBlazorProgressive.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(City city)
-        {
-            await _repo.InsertAsync(city);
-            return Ok();
-        }
+        public async Task<IActionResult> Post(City city) => await _repo.InsertAsync(city) == true ? Ok() : BadRequest();
 
         [HttpPut]
-        public async Task<IActionResult> Put(City city)
-        {
-            await _repo.UpdateAsync(city);
-            return Ok();
-        }
+        public async Task<IActionResult> Put(City city) => await _repo.UpdateAsync(city) == true ? Ok() : BadRequest();
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _repo.DeleteAsync(id);
-            return Ok();
-        }
+        public async Task<IActionResult> Delete(int id) => await _repo.DeleteAsync(id) == true ? Ok() : BadRequest();        
     }
 }
