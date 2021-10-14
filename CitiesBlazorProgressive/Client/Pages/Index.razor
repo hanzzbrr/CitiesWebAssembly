@@ -1,7 +1,75 @@
 ﻿@page "/"
+@using CitiesBlazorProgressive.Shared;
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject HttpClient Http
+@inject NavigationManager _navigationManager
 
-<h1>Hello, world!</h1>
+<NavLink class="nav-link" href="Cities/Add">
+    <span class="oi oi-plus" aria-hidden="true">Add new</span>
 
-Welcome to your new app.
+</NavLink>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<h3>Cities</h3>
+
+@if (_cities is null)
+{
+    <p><em>Loading... !</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Foundation date</th>
+                <th>Population</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (City city in _cities)
+            {
+                <tr>
+                    <td>@city.ID</td>
+                    <td>@city.Name</td>
+                    <td>@city.FoundationDate</td>
+                    <td>@city.Population</td>
+                    <td>
+                        <a class="nav-link" href="Cities/Edit/@city.ID">
+                            <span class="oi oi-pencil" aria-hidden="true">Edit</span>
+                        </a>
+                        <a class="nav-link" href="Cities/Delete/@city.ID">
+                            <span class="oi oi-trash" aria-hidden="true">Delete</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code
+{
+    private IEnumerable<City> _cities = new List<City>();
+    private string _infoText;
+    private HubConnection _hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cities = await Http.GetFromJsonAsync<IEnumerable<City>>("api/Cities");
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(_navigationManager.ToAbsoluteUri("/citieshub"))
+            .Build();
+
+        _hubConnection.On<IEnumerable<City>>("SendCities", (cities) =>
+        {
+            _cities = cities;
+            StateHasChanged();
+        });
+
+        await _hubConnection.StartAsync();
+        _cities = await Http.GetFromJsonAsync<IEnumerable<City>>("api/Cities");
+        StateHasChanged();
+    }
+}

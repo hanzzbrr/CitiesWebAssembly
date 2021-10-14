@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CitiesBlazorProgressive.Server.Services
+namespace CitiesBlazorProgressive.Server.Hubs
 {
     public interface ICitiesHub
     {
-        Task SendCityInfo(IEnumerable<City> city);
-        Task CityHubMessage(string msg);
+        Task SendCities(IEnumerable<City> city);
+        //Task CityHubMessage(string msg);
     }
 }

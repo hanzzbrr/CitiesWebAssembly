@@ -1,0 +1,62 @@
+﻿@page "/Cities/Add"
+@using CitiesBlazorProgressive.Shared
+@inject NavigationManager _navigationManager
+@inject HttpClient http
+
+<h2>Add Employee</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">@_newId</label>                
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input form="Name" class="form-control" @bind="@_city.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Population</label>
+                <input form="Population" class="form-control" @bind="@_city.Population" />
+            </div>
+            <div class="form-group">
+                <label for="FoundationDate" class="control-label">Population</label>
+                <input form="FoundationDate" type="date" class="form-control" @bind="@_city.FoundationDate" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@AddCity" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@CancelAdd" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    City _city = new ();
+    int _newId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //_newId = await Task.Run(() => _citiesService.GetMaxId());
+        _newId++;
+    }
+
+    protected async void AddCity()
+    {
+        _city.ID = _newId;
+        //await _citiesService.InsertCityAsync(_city);
+        _city = await http.GetFromJsonAsync<City>("api/Cities/{id}");
+        _navigationManager.NavigateTo("/");
+    }
+    void CancelAdd()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+}

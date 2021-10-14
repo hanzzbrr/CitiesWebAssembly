@@ -1,0 +1,58 @@
+﻿@page "/Cities/Delete/{id}"
+@using CitiesBlazorProgressive.Shared
+@inject NavigationManager _navigationManager
+
+<h2>Delete city</h2>
+<hr />
+<h3>Are you sure want to delete this?</h3>
+
+<form>
+    <div class="row">
+        <div class=" col-md-8">
+            <div class="form-group">
+                <label>City Id:</label>
+                <label>@_city.ID</label>
+            </div>
+            <div class="form-group">
+                <label>City Name:</label>
+                <label>@_city.Name</label>
+            </div>
+            <div class="form-group">
+                <label>Foundation date:</label>
+                <label>@_city.FoundationDate</label>
+            </div>
+            <div class="form-group">
+                <label>Population:</label>
+                <label>@_city.Population</label>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-danger" @onclick="@DeleteCity" value="Delete" />
+                <input type="button" class="btn btn-primary" @onclick="@CancelDelete" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    City _city = new City();
+    protected override async Task OnInitializedAsync()
+    {
+        //_city = await Task.Run(() => _citiesService.GetCityAsync(Convert.ToInt32(Id)));
+    }
+    protected async void DeleteCity()
+    {
+        //await _citiesService.DeleteCityAsync(_city);
+        _navigationManager.NavigateTo("/");
+    }
+    void CancelDelete()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+}

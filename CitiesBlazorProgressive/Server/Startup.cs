@@ -1,8 +1,11 @@
+using CitiesBlazorProgressive.Server.Data;
+using CitiesBlazorProgressive.Server.Hubs;
 using CitiesBlazorProgressive.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +22,6 @@ namespace CitiesBlazorProgressive.Server
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR(o =>
@@ -33,11 +34,14 @@ namespace CitiesBlazorProgressive.Server
                 opt.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
             });
 
+            services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("Cities"));
+
             services.AddControllersWithViews();
             services.AddRazorPages();
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddTransient<CitiesService>();
+        }
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -47,8 +51,7 @@ namespace CitiesBlazorProgressive.Server
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseExceptionHandler("/Error");                
                 app.UseHsts();
             }
 
@@ -63,7 +66,7 @@ namespace CitiesBlazorProgressive.Server
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
-                endpoints.MapHub<CitiesHub>("/hubs/cities");
+                endpoints.MapHub<CitiesHub>("/citieshub");
             });
         }
     }

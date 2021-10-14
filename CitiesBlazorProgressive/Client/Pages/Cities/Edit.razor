@@ -1,0 +1,58 @@
+﻿@page "/Cities/Edit/{Id}"
+@using CitiesBlazorProgressive.Shared
+@inject NavigationManager _navigationManager
+@inject HttpClient http
+
+<h2>Edit City</h2>
+<hr />
+
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="Name" class="control-label">City ID: @_city.ID</label>
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Name</label>
+                <input form="Name" class="form-control" @bind="@_city.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Population</label>
+                <input form="Population" class="form-control" @bind="@_city.Population" />
+            </div>
+            <div class="form-group">
+                <label for="FoundationDate" class="control-label">Population</label>
+                <input form="FoundationDate" type="date" class="form-control" @bind="@_city.FoundationDate" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@UpdateCity" value="Update" />
+                <input type="button" class="btn btn-primary" @onclick="@CancelUpdate" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    City _city = new ();
+    protected override async Task OnInitializedAsync()
+    {
+        _city = await http.GetFromJsonAsync<City>($"api/Cities/{Convert.ToInt32(Id)}");
+    }
+    protected async void UpdateCity()
+    {
+        //await _citiesService.UpdateCityAsync(_city);
+        _navigationManager.NavigateTo("/");
+    }
+    void CancelUpdate()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+}
