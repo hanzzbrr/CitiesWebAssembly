@@ -53,6 +53,7 @@ namespace CitiesBlazorProgressive.Server.Services
             _dbContext.Attach(city);
             _dbContext.Remove(city);
             await _dbContext.SaveChangesAsync();
+            await _hubContext.Clients.All.SendCities(_dbContext.Cities);
             return true;
         }
 
