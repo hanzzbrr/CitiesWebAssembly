@@ -1,6 +1,8 @@
 ﻿using CitiesBlazorProgressive.Shared;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CitiesBlazorProgressive.Server.Data
 {
@@ -14,7 +16,7 @@ namespace CitiesBlazorProgressive.Server.Data
         public DbSet<City> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        {                        
             modelBuilder.Entity<City>().HasData(
                     new City { ID = 1, Name = "Yekaterinburg", FoundationDate = new DateTime(1723, 11, 18) },
                     new City { ID = 2, Name = "Moscow", FoundationDate = new DateTime(1147, 4, 11) },

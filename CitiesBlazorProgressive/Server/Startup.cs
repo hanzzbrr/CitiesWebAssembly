@@ -1,6 +1,7 @@
 using CitiesBlazorProgressive.Server.Data;
 using CitiesBlazorProgressive.Server.Hubs;
 using CitiesBlazorProgressive.Server.Services;
+using CitiesBlazorProgressive.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -38,7 +39,7 @@ namespace CitiesBlazorProgressive.Server
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddTransient<CitiesService>();
+            services.AddTransient<IRepositoryAsync,CitiesRepository>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

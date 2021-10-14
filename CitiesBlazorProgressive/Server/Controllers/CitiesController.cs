@@ -3,6 +3,7 @@ using CitiesBlazorProgressive.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CitiesBlazorProgressive.Server.Controllers
 {
@@ -10,25 +11,25 @@ namespace CitiesBlazorProgressive.Server.Controllers
     [Route("api/[controller]")]
     public class CitiesController : Controller
     {
-        CitiesService _citiesService;
+        IRepositoryAsync _repo;
         private readonly ILogger<CitiesController> _logger;
 
-        public CitiesController(CitiesService citiesService, ILogger<CitiesController> logger)
+        public CitiesController(IRepositoryAsync repo, ILogger<CitiesController> logger)
         {
-            _citiesService = citiesService;
+            _repo = repo;
             _logger = logger;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _citiesService.GetCitiesAsync());
+            return Ok(await _repo.GetAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var city = await _citiesService.GetCityAsync(id);
+            var city = await _repo.GetAsync(id);
 
             if(city == null)
             {
@@ -40,27 +41,27 @@ namespace CitiesBlazorProgressive.Server.Controllers
         [HttpGet("MaxId")]
         public async Task<IActionResult> GetMaxId()
         {
-            return Ok(await _citiesService.GetMaxId());
+            return Ok(await Task.Run(() => _repo.Cities.Max()));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(City city)
         {
-            await  _citiesService.InsertCityAsync(city);
+            await _repo.InsertAsync(city);
             return Ok();
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(City city)
         {
-            await _citiesService.UpdateCityAsync(city);
+            await _repo.UpdateAsync(city);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _citiesService.DeleteCityAsync(id);
+            await _repo.DeleteAsync(id);
             return Ok();
         }
     }
